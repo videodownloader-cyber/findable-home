@@ -1,0 +1,156 @@
+---
+import { Icon } from "astro-icon/components";
+import Links from "./Links.astro";
+---
+
+<div
+    id="main-navbar"
+    class="sticky top-0 z-999 w-full font-sans transition-transform duration-300"
+>
+    <div class="bg-base-100 shadow-md">
+        <nav class="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Left Side: Logo -->
+            <div class="navbar-start">
+                <a href="/" class="flex items-center gap-2 group">
+                    <div
+                        class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm"
+                    >
+                        <Icon
+                            name="lucide:shopping-bag"
+                            class="w-5 h-5 text-primary-content"
+                        />
+                    </div>
+                    <span
+                        class="text-xl font-bold tracking-tighter sm:text-2xl gradient-text"
+                    >
+                        E-COMMER
+                    </span>
+                </a>
+            </div>
+
+            <!-- Middle Space -->
+            <div class="navbar-center hidden lg:flex">
+                <!-- Optional: Add main navigation links here if needed later -->
+            </div>
+
+            <!-- Right Side: Icons -->
+            <div class="navbar-end gap-2 sm:gap-4">
+                <a
+                    href="/favorites"
+                    class="btn btn-ghost btn-circle hover:bg-primary/10 transition-colors"
+                    aria-label="Favorites"
+                >
+                    <div class="indicator">
+                        <Icon
+                            name="lucide:heart"
+                            class="w-6 h-6 hover:text-primary transition-colors"
+                        />
+                        <span
+                            id="nav-fav-count"
+                            class="badge badge-sm badge-primary indicator-item border-none hidden"
+                            >0</span
+                        >
+                    </div>
+                </a>
+                <button
+                    id="cart-button"
+                    class="btn btn-ghost btn-circle hover:bg-primary/10 transition-colors"
+                    aria-label="Shopping Cart"
+                >
+                    <div class="indicator">
+                        <Icon
+                            name="lucide:shopping-cart"
+                            class="w-6 h-6 hover:text-primary transition-colors"
+                        />
+                        <span
+                            id="nav-cart-count"
+                            class="badge badge-sm badge-primary indicator-item border-none hidden"
+                            >0</span
+                        >
+                    </div>
+                </button>
+            </div>
+        </nav>
+    </div>
+    <Links />
+</div>
+
+<script>
+    import { toggleCart, totalItems } from "../../store/cartStore";
+    import { totalFavorites } from "../../store/favoriteStore";
+
+    let lastScrollY = window.scrollY;
+    const navbar = document.getElementById("main-navbar");
+    const cartBtn = document.getElementById("cart-button");
+    const navCartCount = document.getElementById("nav-cart-count");
+    const navFavCount = document.getElementById("nav-fav-count");
+
+    // Handle cart toggle
+    cartBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleCart();
+    });
+
+    // Update cart count in navbar
+    totalItems.subscribe((count) => {
+        if (!navCartCount) return;
+        if (count > 0) {
+            navCartCount.classList.remove("hidden");
+            navCartCount.textContent = String(count);
+        } else {
+            navCartCount.classList.add("hidden");
+        }
+    });
+
+    // Update favorites count in navbar
+    totalFavorites.subscribe((count) => {
+        if (!navFavCount) return;
+        if (count > 0) {
+            navFavCount.classList.remove("hidden");
+            navFavCount.textContent = String(count);
+        } else {
+            navFavCount.classList.add("hidden");
+        }
+    });
+
+    window.addEventListener("scroll", () => {
+        if (!navbar) return;
+
+        const currentScrollY = window.scrollY;
+
+        // If we are at the top, always show
+        if (currentScrollY <= 0) {
+            navbar.classList.remove("navbar-hidden");
+            lastScrollY = currentScrollY;
+            return;
+        }
+
+        // Detect scroll direction
+        if (currentScrollY > lastScrollY) {
+            // Scroll down -> Hide
+            navbar.classList.add("navbar-hidden");
+        } else {
+            // Scroll up -> Show
+            navbar.classList.remove("navbar-hidden");
+        }
+
+        lastScrollY = currentScrollY;
+    });
+</script>
+
+<style>
+    .gradient-text {
+        background: linear-gradient(
+            135deg,
+            var(--color-primary) 0%,
+            #6366f1 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .navbar-hidden {
+        transform: translateY(-100%);
+    }
+</style>
