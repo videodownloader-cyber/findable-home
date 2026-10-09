@@ -1,17 +1,30 @@
 ---
 import CategoryCardHome from "./CategoryCardHome.astro";
-import { categories, featuredLinks } from "../../data/home.ts";
+import { categories } from "../../data/home.ts";
 ---
 
-<section class="py-10 bg-white">
+<section class="py-16 sm:py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2
-            class="text-3xl font-black text-slate-900 uppercase tracking-tighter mb-12"
-        >
-            Categories
-        </h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Section Heading -->
+        <div class="text-center mb-10 sm:mb-12">
+            <p
+                class="text-xs sm:text-sm font-medium uppercase tracking-[0.2em] text-slate-500 mb-2"
+            >
+                Explore the home
+            </p>
+
+            <h2
+                class="text-3xl sm:text-4xl font-medium tracking-tight text-slate-900"
+            >
+                Shop by Space
+            </h2>
+        </div>
+
+        <!-- Space Grid -->
+        <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10"
+        >
             {
                 categories.map((category) => (
                     <CategoryCardHome
@@ -21,17 +34,7 @@ import { categories, featuredLinks } from "../../data/home.ts";
                     />
                 ))
             }
-            {
-                featuredLinks.map((link) => (
-                    <CategoryCardHome
-                        name={link.name}
-                        image={link.image}
-                        path={link.path}
-                        className={link.className}
-                        imageClass={link.imageClass}
-                    />
-                ))
-            }
         </div>
+
     </div>
 </section>
