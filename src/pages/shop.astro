@@ -4,7 +4,9 @@ import Layout from "../layouts/Layout.astro";
 import ShopProductCard from "../components/products/ShopProductCard.astro";
 import { featuredProducts } from "../data/featuredProducts";
 
-const products = featuredProducts.filter((product) => product.featured);
+const products = [...featuredProducts].sort(
+    (a, b) => a.sortOrder - b.sortOrder,
+);
 
 const categories = [
     { label: "All Products", value: "all" },
