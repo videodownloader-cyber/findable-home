@@ -1,3 +1,4 @@
+
 ---
 import { Icon } from "astro-icon/components";
 import { getFeaturedProducts } from "../../data/featuredProducts";
@@ -16,7 +17,11 @@ const products = getFeaturedProducts(4);
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                 {products.map((product) => (
-                    <article class="product-card group relative rounded-xl overflow-hidden border border-slate-200 bg-white shadow-sm hover:shadow-xl transition-shadow duration-300">
+                    <article
+                        class="product-card group relative rounded-xl overflow-hidden border border-slate-200 bg-white shadow-sm hover:shadow-xl transition-shadow duration-300"
+                        data-product-id={product.id}
+                        data-product-category={product.category}
+                    >
                         <div class="relative w-full aspect-[4/5] bg-slate-100 overflow-hidden">
                             {product.image ? (
                                 <img
@@ -28,7 +33,9 @@ const products = getFeaturedProducts(4);
                             ) : (
                                 <div class="w-full h-full flex flex-col items-center justify-center px-6 text-center text-slate-400">
                                     <Icon name="lucide:image" class="w-10 h-10 mb-3" />
-                                    <span class="text-xs uppercase tracking-[0.16em]">Product image pending</span>
+                                    <span class="text-xs uppercase tracking-[0.16em]">
+                                        Product image pending
+                                    </span>
                                 </div>
                             )}
 
@@ -37,8 +44,10 @@ const products = getFeaturedProducts(4);
                                     href={product.benableUrl}
                                     target="_blank"
                                     rel="nofollow sponsored noopener noreferrer"
-                                    class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-900 shadow-md hover:bg-slate-900 hover:text-white transition-colors"
+                                    data-product-click
+                                    data-destination-type="benable"
                                     aria-label={`View ${product.title}`}
+                                    class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-900 shadow-md hover:bg-slate-900 hover:text-white transition-colors"
                                 >
                                     View Product
                                     <Icon name="lucide:arrow-up-right" class="w-3.5 h-3.5" />
@@ -48,10 +57,13 @@ const products = getFeaturedProducts(4);
 
                         <div class="p-4">
                             <p class="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 mb-2">
-                                Kitchen Storage
+                                {product.category.replaceAll("-", " ")}
                             </p>
 
-                            <h3 class="font-bold text-base sm:text-lg leading-snug text-slate-900 line-clamp-3" title={product.title}>
+                            <h3
+                                class="font-bold text-base sm:text-lg leading-snug text-slate-900 line-clamp-3"
+                                title={product.title}
+                            >
                                 {product.title}
                             </h3>
 
@@ -59,6 +71,8 @@ const products = getFeaturedProducts(4);
                                 href={product.benableUrl}
                                 target="_blank"
                                 rel="nofollow sponsored noopener noreferrer"
+                                data-product-click
+                                data-destination-type="benable"
                                 class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-900 hover:underline"
                             >
                                 Check product
@@ -71,3 +85,56 @@ const products = getFeaturedProducts(4);
         </div>
     </section>
 )}
+
+<script>
+    function trackProductClick(
+        link: HTMLAnchorElement,
+        card: HTMLElement
+    ) {
+        const productId = card.dataset.productId;
+        const productCategory = card.dataset.productCategory;
+        const destinationType = link.dataset.destinationType;
+
+        if (!productId) return;
+
+        const dataLayer = (window as Window & {
+            dataLayer?: Record<string, unknown>[];
+        }).dataLayer;
+
+        if (!dataLayer) {
+            console.warn("GTM dataLayer is unavailable.");
+            return;
+        }
+
+        dataLayer.push({
+            event: "affiliate_click",
+            item_id: productId,
+            item_name: card.querySelector("h3")?.textContent?.trim() ?? "",
+            item_category: productCategory ?? "",
+            placement: "homepage_featured",
+            destination_type: destinationType ?? "unknown",
+            link_url: link.href,
+        });
+    }
+
+    function initProductTracking() {
+        document.querySelectorAll<HTMLAnchorElement>(
+            "#featured-products-section a[data-product-click]"
+        ).forEach((link) => {
+            if (link.dataset.trackingInitialized === "true") return;
+
+            link.dataset.trackingInitialized = "true";
+
+            link.addEventListener("click", () => {
+                const card = link.closest<HTMLElement>("[data-product-id]");
+
+                if (card) {
+                    trackProductClick(link, card);
+                }
+            });
+        });
+    }
+
+    initProductTracking();
+    document.addEventListener("astro:page-load", initProductTracking);
+</script>
