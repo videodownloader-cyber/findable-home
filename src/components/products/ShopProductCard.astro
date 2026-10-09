@@ -1,0 +1,86 @@
+
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+    id: string;
+    title: string;
+    category: string;
+    image: string | null;
+    description?: string;
+    benableUrl: string;
+}
+
+const {
+    id,
+    title,
+    category,
+    image,
+    description,
+    benableUrl,
+} = Astro.props;
+---
+
+<article
+    class="group flex h-full flex-col overflow-hidden rounded-2xl border border-base-200 bg-base-100 transition-shadow duration-300 hover:shadow-lg"
+    data-product-id={id}
+    data-product-category={category}
+>
+    <a
+        href={benableUrl}
+        target="_blank"
+        rel="sponsored nofollow noopener noreferrer"
+        class="block overflow-hidden bg-base-200"
+        data-product-click
+        data-destination-type="benable"
+        aria-label={`View ${title} on Benable`}
+    >
+        {
+            image ? (
+                <img
+                    src={image}
+                    alt={title}
+                    loading="lazy"
+                    class="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+            ) : (
+                <div class="flex aspect-square w-full flex-col items-center justify-center gap-3 text-base-content/50">
+                    <Icon name="lucide:image" class="h-10 w-10" />
+                    <span class="text-sm">Product image unavailable</span>
+                </div>
+            )
+        }
+    </a>
+
+    <div class="flex flex-1 flex-col p-5">
+        <p class="mb-2 text-xs font-bold uppercase tracking-widest text-primary">
+            {category.replaceAll("-", " ")}
+        </p>
+
+        <h2 class="mb-3 text-lg font-bold leading-snug text-base-content">
+            {title}
+        </h2>
+
+        {
+            description && (
+                <p class="mb-4 text-sm leading-relaxed text-base-content/70">
+                    {description}
+                </p>
+            )
+        }
+
+        <div class="mt-auto pt-3">
+            <a
+                href={benableUrl}
+                target="_blank"
+                rel="sponsored nofollow noopener noreferrer"
+                data-product-click
+                data-destination-type="benable"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-content transition-opacity hover:opacity-85"
+            >
+                View Product
+                <Icon name="lucide:external-link" class="h-4 w-4" />
+            </a>
+        </div>
+    </div>
+</article>

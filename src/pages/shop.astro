@@ -1,0 +1,219 @@
+
+---
+import Layout from "../layouts/Layout.astro";
+import ShopProductCard from "../components/products/ShopProductCard.astro";
+import { featuredProducts } from "../data/featuredProducts";
+
+const products = featuredProducts.filter((product) => product.featured);
+
+const categories = [
+    { label: "All Products", value: "all" },
+    { label: "Kitchen", value: "kitchen" },
+    { label: "Pantry", value: "pantry" },
+    { label: "Closet", value: "closet" },
+    { label: "Bathroom", value: "bathroom" },
+    { label: "Laundry", value: "laundry" },
+    { label: "Entryway", value: "entryway" },
+    { label: "Office", value: "office" },
+    { label: "Under the Sink", value: "under-the-sink" },
+];
+---
+
+<Layout title="Shop Practical Home Solutions | Findable Home">
+    <main class="min-h-screen bg-base-100 pb-20">
+        <!-- Shop Hero -->
+        <section class="bg-base-200">
+            <div class="mx-auto max-w-7xl px-6 py-16 md:py-24">
+                <p
+                    class="mb-4 text-sm font-bold uppercase tracking-[0.25em] text-primary"
+                >
+                    Findable Home
+                </p>
+
+                <h1
+                    class="max-w-3xl text-4xl font-black leading-tight tracking-tight text-base-content md:text-6xl"
+                >
+                    Practical finds for a more organized home.
+                </h1>
+
+                <p
+                    class="mt-6 max-w-2xl text-lg leading-relaxed text-base-content/70"
+                >
+                    Explore useful storage and organization ideas for everyday
+                    spaces, small homes, and renter-friendly living.
+                </p>
+
+                <a
+                    href="#shop-products"
+                    class="mt-8 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-4 font-bold text-primary-content transition-opacity hover:opacity-85"
+                >
+                    Explore the collection
+                    <span aria-hidden="true">↓</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Product Catalogue -->
+        <section
+            id="shop-products"
+            class="mx-auto max-w-7xl px-6 py-12 md:py-16"
+        >
+            <div class="mb-8">
+                <h2
+                    class="text-2xl font-black tracking-tight text-base-content md:text-3xl"
+                >
+                    Browse practical solutions
+                </h2>
+
+                <p
+                    class="mt-3 max-w-2xl leading-relaxed text-base-content/70"
+                >
+                    Discover selected products for everyday household
+                    challenges. Choose a space to narrow the collection.
+                </p>
+            </div>
+
+            <!-- Physical-space category filters -->
+            <div
+                class="mb-10 flex flex-wrap gap-3"
+                aria-label="Filter products by household space"
+            >
+                {
+                    categories.map((category) => (
+                        <button
+                            type="button"
+                            class:list={[
+                                "shop-filter rounded-full border px-5 py-3 text-sm font-bold transition-colors",
+                                category.value === "all"
+                                    ? "is-active border-primary bg-primary text-primary-content"
+                                    : "border-base-300 bg-base-100 text-base-content hover:border-primary",
+                            ]}
+                            data-category={category.value}
+                            aria-pressed={
+                                category.value === "all" ? "true" : "false"
+                            }
+                        >
+                            {category.label}
+                        </button>
+                    ))
+                }
+            </div>
+
+            <!-- Product grid -->
+            <div
+                id="shop-product-grid"
+                class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            >
+                {
+                    products.map((product) => (
+                        <div
+                            class="shop-product"
+                            data-category={product.category}
+                        >
+                            <ShopProductCard
+                                id={product.id}
+                                title={product.title}
+                                category={product.category}
+                                image={product.image}
+                                benableUrl={product.benableUrl}
+                            />
+                        </div>
+                    ))
+                }
+            </div>
+
+            <!-- Empty state -->
+            <p
+                id="shop-empty-message"
+                class="hidden rounded-xl bg-base-200 p-8 text-center text-base-content/70"
+            >
+                There are no products in this category yet. Try another
+                category.
+            </p>
+
+            <p
+                class="mt-10 text-sm leading-relaxed text-base-content/60"
+            >
+                Product availability and details may change. Product links
+                lead to Benable, where you can explore the selected finds.
+            </p>
+        </section>
+    </main>
+</Layout>
+
+<script>
+    function initShopPage() {
+        const filters =
+            document.querySelectorAll<HTMLButtonElement>(".shop-filter");
+
+        const productCards =
+            document.querySelectorAll<HTMLElement>(".shop-product");
+
+        const emptyMessage = document.getElementById("shop-empty-message");
+
+        if (!filters.length) return;
+
+        filters.forEach((filter) => {
+            if (filter.dataset.listenerAttached === "true") return;
+
+            filter.addEventListener("click", () => {
+                const selectedCategory = filter.dataset.category || "all";
+
+                filters.forEach((button) => {
+                    const isActive = button === filter;
+
+                    button.classList.toggle("is-active", isActive);
+                    button.classList.toggle("border-primary", isActive);
+                    button.classList.toggle("bg-primary", isActive);
+                    button.classList.toggle(
+                        "text-primary-content",
+                        isActive,
+                    );
+
+                    button.classList.toggle(
+                        "border-base-300",
+                        !isActive,
+                    );
+                    button.classList.toggle("bg-base-100", !isActive);
+                    button.classList.toggle(
+                        "text-base-content",
+                        !isActive,
+                    );
+
+                    button.setAttribute("aria-pressed", String(isActive));
+                });
+
+                let visibleCount = 0;
+
+                productCards.forEach((card) => {
+                    const matches =
+                        selectedCategory === "all" ||
+                        card.dataset.category === selectedCategory;
+
+                    card.classList.toggle("hidden", !matches);
+
+                    if (matches) visibleCount++;
+                });
+
+                emptyMessage?.classList.toggle(
+                    "hidden",
+                    visibleCount > 0,
+                );
+
+                // Record category-filter interactions in the data layer.
+                window.dataLayer = window.dataLayer || [];
+
+                window.dataLayer.push({
+                    event: "shop_category_click",
+                    item_category: selectedCategory,
+                    placement: "shop_filter",
+                });
+            });
+
+            filter.dataset.listenerAttached = "true";
+        });
+    }
+
+    initShopPage();
+    document.addEventListener("astro:page-load", initShopPage);
+</script>
