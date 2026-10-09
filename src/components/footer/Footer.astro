@@ -9,25 +9,23 @@ import { Icon } from "astro-icon/components";
         >
             <!-- Brand Section -->
             <div class="col-span-1 lg:col-span-1">
-                <a href="/" class="flex items-center gap-2 mb-6 group">
-                    <div
-                        class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform shadow-lg"
-                    >
-                        <Icon
-                            name="lucide:shopping-bag"
-                            class="w-6 h-6 text-primary-content"
-                        />
-                    </div>
-                    <span
-                        class="text-2xl font-bold tracking-tighter gradient-text"
-                    >
-                        E-COMMER
-                    </span>
+                <a
+                    href="/"
+                    class="inline-flex items-center mb-3 group"
+                    aria-label="Findable Home - Home"
+                >
+                    <img
+                        src="/images/branding/findable-home-logo.webp"
+                        alt="Findable Home"
+                        class="w-[220px] h-auto max-w-full object-contain transition-transform group-hover:scale-[1.02]"
+                    />
                 </a>
-                <p class="text-base-content/70 mb-6 leading-relaxed">
-                    Premium tech gear for the modern professional. Elevate your
-                    digital lifestyle with our curated collection.
+
+                <p class="text-base-content/70 mb-6 leading-relaxed max-w-xs">
+                    Practical, renter-friendly storage and organization ideas
+                    to make everyday spaces easier to use.
                 </p>
+
                 <!-- Socials -->
                 <div class="flex gap-4">
                     <a
@@ -53,7 +51,6 @@ import { Icon } from "astro-icon/components";
                     </a>
                 </div>
             </div>
-
             <!-- Links Column 1 -->
             <div>
                 <h3 class="font-bold text-lg mb-6 text-base-content/90">
@@ -159,7 +156,7 @@ import { Icon } from "astro-icon/components";
             class="border-t border-base-content/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-base-content/50"
         >
             <p>
-                &copy; {new Date().getFullYear()} E-COMMER. All rights reserved.
+                &copy; {new Date().getFullYear()} Findable Home. All rights reserved.
             </p>
             <div class="flex gap-6">
                 <a href="#" class="hover:text-base-content transition-colors"
