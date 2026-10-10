@@ -1,3 +1,4 @@
+
 ---
 import "../styles/global.css";
 import Navbar from "../components/navbar/NavBar.astro";
@@ -5,43 +6,95 @@ import AnnouncementBar from "../components/ui/AnnouncementBar.astro";
 import Footer from "../components/footer/Footer.astro";
 import ToasterComponent from "../components/ui/ToasterComponent";
 import CartDrawer from "../components/cart/CartDrawer.astro";
+
+interface Props {
+    title?: string;
+    description?: string;
+    canonical?: string;
+    noindex?: boolean;
+    ogType?: "website" | "article";
+    image?: string;
+}
+
+const {
+    title = "Findable Home | Practical Home Organization & Storage",
+    description = "Home organization, small-space storage, and renter-friendly solutions for real homes. Practical, honest advice, with no gimmicks or unnecessary buys.",
+    canonical,
+    noindex = false,
+    ogType = "website",
+    image = "/images/branding/findable-home-logo.webp",
+} = Astro.props;
+
+const siteUrl = "https://findablehome.me";
+const canonicalUrl = canonical
+    ? new URL(canonical, siteUrl).href
+    : new URL(Astro.url.pathname, siteUrl).href;
+const imageUrl = new URL(image, siteUrl).href;
 ---
 
 <!doctype html>
 <html lang="en" data-theme="light">
-	<head>
-		<!-- Google Tag Manager -->
-<script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-PPJ5M66K');</script>
-<!-- End Google Tag Manager -->
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Findable Home | Practical Home Organization & Storage</title>
-	</head>
-	<body class="bg-base-200 min-h-screen">
-		<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPJ5M66K"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-		<AnnouncementBar />
-		<Navbar />
-		<main>
-			<slot />
-		</main>
-		<Footer />
-		<CartDrawer />
-		<ToasterComponent client:load />
-	</body>
+    <head>
+        <!-- Google Tag Manager -->
+        <script is:inline>
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-PPJ5M66K');
+        </script>
+        <!-- End Google Tag Manager -->
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
+
+        <meta property="og:type" content={ogType} />
+        <meta property="og:site_name" content="Findable Home" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={imageUrl} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={imageUrl} />
+
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    </head>
+
+    <body class="bg-base-200 min-h-screen">
+        <!-- Google Tag Manager (noscript) -->
+        <noscript>
+            <iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-PPJ5M66K"
+                height="0"
+                width="0"
+                style="display:none;visibility:hidden"
+            ></iframe>
+        </noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+        <AnnouncementBar />
+        <Navbar />
+        <main>
+            <slot />
+        </main>
+        <Footer />
+        <CartDrawer />
+        <ToasterComponent client:load />
+    </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-	}
+    html,
+    body {
+        margin: 0;
+    }
 </style>

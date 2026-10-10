@@ -1,184 +1,160 @@
 ---
-import { Icon } from "astro-icon/components";
 ---
 
-<footer class="bg-base-300 text-base-content pt-16 pb-8 mt-auto">
+<footer class="mt-auto bg-base-300 text-base-content pt-14 pb-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12"
-        >
-            <!-- Brand Section -->
-            <div class="col-span-1 lg:col-span-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <!-- Brand -->
+            <div>
                 <a
                     href="/"
-                    class="inline-flex items-center mb-3 group"
+                    class="inline-flex items-center mb-4"
                     aria-label="Findable Home - Home"
                 >
                     <img
                         src="/images/branding/findable-home-logo.webp"
                         alt="Findable Home"
-                        class="w-[220px] h-auto max-w-full object-contain transition-transform group-hover:scale-[1.02]"
+                        class="w-[220px] h-auto max-w-full object-contain"
                     />
                 </a>
 
-                <p class="text-base-content/70 mb-6 leading-relaxed max-w-xs">
+                <p class="text-base-content/70 leading-relaxed max-w-xs mb-5">
                     Practical, renter-friendly storage and organization ideas
                     to make everyday spaces easier to use.
                 </p>
 
-                <!-- Socials -->
-                <div class="flex gap-4">
+                <!-- Social Links -->
+                <div class="flex flex-wrap gap-3">
+                    <!-- Pinterest -->
                     <a
-                        href="#"
-                        class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary transition-colors"
-                        aria-label="Twitter"
+                        href="https://in.pinterest.com/findablehome/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Findable Home on Pinterest"
+                        class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary"
                     >
-                        <Icon name="lucide:twitter" class="w-5 h-5" />
+                        <svg
+                            viewBox="0 0 24 24"
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path d="M12 2a10 10 0 0 0-3.64 19.31c-.02-.78 0-1.72.19-2.57l1.38-5.85s-.35-.7-.35-1.73c0-1.62.94-2.83 2.1-2.83.99 0 1.47.74 1.47 1.63 0 .99-.63 2.47-.95 3.84-.27 1.15.57 2.09 1.7 2.09 2.04 0 3.62-2.15 3.62-5.26 0-2.75-1.98-4.67-4.8-4.67-3.27 0-5.2 2.45-5.2 4.98 0 .99.38 2.05.86 2.63.1.12.11.22.08.34l-.32 1.3c-.05.21-.17.25-.39.15-1.44-.67-2.34-2.78-2.34-4.47 0-3.64 2.64-6.98 7.62-6.98 4 0 7.12 2.85 7.12 6.66 0 3.97-2.5 7.17-5.97 7.17-1.17 0-2.27-.61-2.65-1.33l-.72 2.74c-.26 1-.96 2.25-1.43 3.02A10 10 0 1 0 12 2Z" />
+                        </svg>
                     </a>
+
+                    <!-- Tumblr -->
                     <a
-                        href="#"
-                        class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary transition-colors"
-                        aria-label="Instagram"
+                        href="https://www.tumblr.com/blog/findablehome"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Findable Home on Tumblr"
+                        class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary"
                     >
-                        <Icon name="lucide:instagram" class="w-5 h-5" />
+                        <svg
+                            viewBox="0 0 24 24"
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path d="M14.5 21.5c-4.1 0-5.7-3-5.7-5.2v-6H6V7.1c3.1-1.1 4.2-3.9 4.4-6.1h3.3v5.6h4.1v3.7h-4.1v5.6c0 1.5 1 2.1 2.2 2.1.7 0 1.5-.2 2.1-.6v3.6c-.9.3-2 .5-3.5.5Z" />
+                        </svg>
                     </a>
+
+                    <!-- Benable -->
                     <a
-                        href="#"
-                        class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary transition-colors"
-                        aria-label="Github"
-                    >
-                        <Icon name="lucide:github" class="w-5 h-5" />
-                    </a>
+    href="https://benable.com/CarolinaWilson"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Findable Home product collections on Benable"
+    class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary"
+>
+    <span class="text-xl font-extrabold leading-none" aria-hidden="true">B</span>
+</a>
                 </div>
             </div>
-            <!-- Links Column 1 -->
+
+            <!-- Explore -->
             <div>
-                <h3 class="font-bold text-lg mb-6 text-base-content/90">
-                    Shop
-                </h3>
-                <ul class="space-y-4">
+                <h2 class="font-bold text-lg mb-5">Explore</h2>
+                <ul class="space-y-3">
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >All Products</a
-                        >
+                        <a href="/shop/" class="text-base-content/70 hover:text-primary transition-colors">
+                            Shop All
+                        </a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Featured</a
-                        >
+                        <a href="/blog/" class="text-base-content/70 hover:text-primary transition-colors">
+                            Helpful Articles
+                        </a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >New Arrivals</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Discounts</a
-                        >
+                        <a href="/about/" class="text-base-content/70 hover:text-primary transition-colors">
+                            About Findable Home
+                        </a>
                     </li>
                 </ul>
             </div>
 
-            <!-- Links Column 2 -->
+            <!-- Help & Contact -->
             <div>
-                <h3 class="font-bold text-lg mb-6 text-base-content/90">
-                    Support
-                </h3>
-                <ul class="space-y-4">
+                <h2 class="font-bold text-lg mb-5">Help & Contact</h2>
+                <ul class="space-y-3">
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Contact Us</a
-                        >
+                        <a href="/contact/" class="text-base-content/70 hover:text-primary transition-colors">
+                            Contact Us
+                        </a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >FAQs</a
-                        >
+                        <a href="mailto:contact@findablehome.me" class="text-base-content/70 hover:text-primary transition-colors">
+                            Email Us
+                        </a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Shipping & Returns</a
-                        >
+                        <a href="/disclaimer/" class="text-base-content/70 hover:text-primary transition-colors">
+                            Disclaimer
+                        </a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Order Status</a
-                        >
+                        <a href="/accessibility/" class="text-base-content/70 hover:text-primary transition-colors">
+                            Accessibility
+                        </a>
                     </li>
                 </ul>
             </div>
 
-            <!-- Newsletter -->
+            <!-- Policies -->
             <div>
-                <h3 class="font-bold text-lg mb-6 text-base-content/90">
-                    Stay Updated
-                </h3>
-                <p class="text-base-content/70 mb-4 text-sm">
-                    Subscribe to our newsletter for exclusive deals and tech
-                    news.
-                </p>
-                <div class="form-control w-full">
-                    <div class="relative">
-                        <input
-                            type="text"
-                            placeholder="Enter your email"
-                            class="input input-bordered w-full pr-12 focus:outline-hidden focus:border-primary"
-                        />
-                        <button
-                            class="absolute top-0 right-0 rounded-l-none btn btn-primary px-3"
-                            aria-label="Subscribe"
-                        >
-                            <Icon name="lucide:arrow-right" class="w-5 h-5" />
-                        </button>
-                    </div>
-                </div>
+                <h2 class="font-bold text-lg mb-5">Policies</h2>
+                <ul class="space-y-3">
+                    <li>
+                        <a href="/privacy-policy/" class="text-base-content/70 hover:text-primary transition-colors">
+                            Privacy Policy
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/terms/" class="text-base-content/70 hover:text-primary transition-colors">
+                            Terms & Conditions
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/affiliate-disclosure/" class="text-base-content/70 hover:text-primary transition-colors">
+                            Affiliate Disclosure
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
 
-        <div
-            class="border-t border-base-content/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-base-content/50"
-        >
+        <!-- Copyright -->
+        <div class="border-t border-base-content/10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-base-content/60">
             <p>
                 &copy; {new Date().getFullYear()} Findable Home. All rights reserved.
             </p>
-            <div class="flex gap-6">
-                <a href="#" class="hover:text-base-content transition-colors"
-                    >Privacy Policy</a
-                >
-                <a href="#" class="hover:text-base-content transition-colors"
-                    >Terms of Service</a
-                >
-            </div>
+            <a href="/" class="hover:text-primary transition-colors">
+                Practical ideas for everyday spaces
+            </a>
         </div>
     </div>
 </footer>
-
-<style>
-    .gradient-text {
-        background: linear-gradient(
-            135deg,
-            var(--color-primary) 0%,
-            #6366f1 100%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-</style>
+```
