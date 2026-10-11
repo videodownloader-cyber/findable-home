@@ -1,21 +1,26 @@
 ---
 import { Icon } from "astro-icon/components";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 ---
 
 <section class="relative w-full overflow-hidden">
     <div class="swiper hero-swiper h-[350px] sm:h-[450px] md:h-[500px]">
         <div class="swiper-wrapper">
-
             <!-- Slide 1 -->
             <div class="swiper-slide relative">
                 <img
-    src="/images/hero/hero-home.webp"
-    alt="Bright organized home interior"
-    fetchpriority="high"
-    loading="eager"
-    decoding="async"
-    class="absolute inset-0 w-full h-full object-cover"
-/>
+                    src="/images/hero/hero-home.webp"
+                    alt="Bright organized home interior"
+                    width="1920"
+                    height="1080"
+                    fetchpriority="high"
+                    loading="eager"
+                    decoding="async"
+                    class="absolute inset-0 w-full h-full object-cover"
+                />
 
                 <div
                     class="absolute inset-0 bg-black/30 flex items-center justify-center text-center px-4"
@@ -43,12 +48,15 @@ import { Icon } from "astro-icon/components";
                 </div>
             </div>
 
-
             <!-- Slide 2 -->
             <div class="swiper-slide relative">
                 <img
                     src="/images/hero/hero-living-room.webp"
                     alt="Comfortable and organized living room"
+                    width="1440"
+                    height="960"
+                    loading="lazy"
+                    decoding="async"
                     class="absolute inset-0 w-full h-full object-cover"
                 />
 
@@ -78,12 +86,15 @@ import { Icon } from "astro-icon/components";
                 </div>
             </div>
 
-
             <!-- Slide 3 -->
             <div class="swiper-slide relative">
                 <img
                     src="/images/hero/hero-kitchen.webp"
                     alt="Functional home kitchen"
+                    width="1440"
+                    height="863"
+                    loading="lazy"
+                    decoding="async"
                     class="absolute inset-0 w-full h-full object-cover"
                 />
 
@@ -113,12 +124,15 @@ import { Icon } from "astro-icon/components";
                 </div>
             </div>
 
-
             <!-- Slide 4 -->
             <div class="swiper-slide relative">
                 <img
                     src="/images/hero/hero-interior.webp"
                     alt="Thoughtfully arranged home interior"
+                    width="1440"
+                    height="914"
+                    loading="lazy"
+                    decoding="async"
                     class="absolute inset-0 w-full h-full object-cover"
                 />
 
@@ -147,7 +161,6 @@ import { Icon } from "astro-icon/components";
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- Navigation -->
@@ -167,12 +180,6 @@ import { Icon } from "astro-icon/components";
         <div class="swiper-pagination bottom-8!"></div>
     </div>
 </section>
-
-
-<link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
 
 <style>
     :root {
@@ -205,7 +212,6 @@ import { Icon } from "astro-icon/components";
         animation: fade-in 1s ease-out forwards;
     }
 </style>
-
 
 <script>
     import Swiper from "swiper";
