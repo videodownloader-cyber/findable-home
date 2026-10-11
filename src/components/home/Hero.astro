@@ -9,10 +9,13 @@ import { Icon } from "astro-icon/components";
             <!-- Slide 1 -->
             <div class="swiper-slide relative">
                 <img
-                    src="/images/hero/hero-home.webp"
-                    alt="Bright organized home interior"
-                    class="absolute inset-0 w-full h-full object-cover"
-                />
+    src="/images/hero/hero-home.webp"
+    alt="Bright organized home interior"
+    fetchpriority="high"
+    loading="eager"
+    decoding="async"
+    class="absolute inset-0 w-full h-full object-cover"
+/>
 
                 <div
                     class="absolute inset-0 bg-black/30 flex items-center justify-center text-center px-4"
