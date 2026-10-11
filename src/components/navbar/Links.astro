@@ -74,10 +74,11 @@ const categories = [
 
     <!-- Mobile Dropdown Menu -->
     <div
-        id="mobile-links-menu"
-        class="sm:hidden grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out bg-primary overflow-hidden brightness-95"
-        aria-hidden="true"
-    >
+    id="mobile-links-menu"
+    class="sm:hidden grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out bg-primary overflow-hidden brightness-95"
+    aria-hidden="true"
+    inert
+>
         <div class="min-h-0 flex flex-col border-t border-white/10">
             {
                 categories.map((cat) => (
@@ -140,9 +141,10 @@ const categories = [
             const isOpen = menu.classList.contains("menu-open");
 
             menu.classList.toggle("menu-open", !isOpen);
-            menu.setAttribute("aria-hidden", String(isOpen));
+menu.setAttribute("aria-hidden", String(isOpen));
+menu.toggleAttribute("inert", isOpen);
 
-            toggleBtn.setAttribute("aria-expanded", String(!isOpen));
+toggleBtn.setAttribute("aria-expanded", String(!isOpen));
             toggleBtn.setAttribute(
                 "aria-label",
                 isOpen ? "Open navigation menu" : "Close navigation menu",
