@@ -11,16 +11,24 @@ import "swiper/css/effect-fade";
         <div class="swiper-wrapper">
             <!-- Slide 1 -->
             <div class="swiper-slide relative">
-                <img
-                    src="/images/hero/hero-home.webp"
-                    alt="Bright organized home interior"
-                    width="1920"
-                    height="1080"
-                    fetchpriority="high"
-                    loading="eager"
-                    decoding="async"
-                    class="absolute inset-0 w-full h-full object-cover"
-                />
+                <picture>
+                    <source
+                        media="(max-width: 767px)"
+                        srcset="/images/hero/hero-home-mobile.webp"
+                        width="960"
+                        height="540"
+                    />
+                    <img
+                        src="/images/hero/hero-home.webp"
+                        alt="Bright organized home interior"
+                        width="1920"
+                        height="1080"
+                        fetchpriority="high"
+                        loading="eager"
+                        decoding="async"
+                        class="absolute inset-0 w-full h-full object-cover"
+                    />
+                </picture>
 
                 <div
                     class="absolute inset-0 bg-black/30 flex items-center justify-center text-center px-4"
@@ -50,15 +58,23 @@ import "swiper/css/effect-fade";
 
             <!-- Slide 2 -->
             <div class="swiper-slide relative">
-                <img
-                    src="/images/hero/hero-living-room.webp"
-                    alt="Comfortable and organized living room"
-                    width="1440"
-                    height="960"
-                    loading="lazy"
-                    decoding="async"
-                    class="absolute inset-0 w-full h-full object-cover"
-                />
+                <picture>
+                    <source
+                        media="(max-width: 767px)"
+                        srcset="/images/hero/hero-living-room-mobile.webp"
+                        width="960"
+                        height="640"
+                    />
+                    <img
+                        src="/images/hero/hero-living-room.webp"
+                        alt="Comfortable and organized living room"
+                        width="1440"
+                        height="960"
+                        loading="lazy"
+                        decoding="async"
+                        class="absolute inset-0 w-full h-full object-cover"
+                    />
+                </picture>
 
                 <div
                     class="absolute inset-0 bg-black/30 flex items-center justify-start px-8 md:px-24"
@@ -88,15 +104,23 @@ import "swiper/css/effect-fade";
 
             <!-- Slide 3 -->
             <div class="swiper-slide relative">
-                <img
-                    src="/images/hero/hero-kitchen.webp"
-                    alt="Functional home kitchen"
-                    width="1440"
-                    height="863"
-                    loading="lazy"
-                    decoding="async"
-                    class="absolute inset-0 w-full h-full object-cover"
-                />
+                <picture>
+                    <source
+                        media="(max-width: 767px)"
+                        srcset="/images/hero/hero-kitchen-mobile.webp"
+                        width="960"
+                        height="575"
+                    />
+                    <img
+                        src="/images/hero/hero-kitchen.webp"
+                        alt="Functional home kitchen"
+                        width="1440"
+                        height="863"
+                        loading="lazy"
+                        decoding="async"
+                        class="absolute inset-0 w-full h-full object-cover"
+                    />
+                </picture>
 
                 <div
                     class="absolute inset-0 bg-black/30 flex items-center justify-center text-center px-4"
@@ -126,15 +150,23 @@ import "swiper/css/effect-fade";
 
             <!-- Slide 4 -->
             <div class="swiper-slide relative">
-                <img
-                    src="/images/hero/hero-interior.webp"
-                    alt="Thoughtfully arranged home interior"
-                    width="1440"
-                    height="914"
-                    loading="lazy"
-                    decoding="async"
-                    class="absolute inset-0 w-full h-full object-cover"
-                />
+                <picture>
+                    <source
+                        media="(max-width: 767px)"
+                        srcset="/images/hero/hero-interior-mobile.webp"
+                        width="960"
+                        height="609"
+                    />
+                    <img
+                        src="/images/hero/hero-interior.webp"
+                        alt="Thoughtfully arranged home interior"
+                        width="1440"
+                        height="914"
+                        loading="lazy"
+                        decoding="async"
+                        class="absolute inset-0 w-full h-full object-cover"
+                    />
+                </picture>
 
                 <div
                     class="absolute inset-0 bg-black/30 flex items-center justify-end px-8 md:px-24"
