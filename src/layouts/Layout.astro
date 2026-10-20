@@ -66,6 +66,49 @@ const imageUrl = new URL(image, siteUrl).href;
         <meta name="twitter:image" content={imageUrl} />
 
         <link rel="icon" type="image/webp" href="/favicon.webp" />
+        <!-- Sender.net popup: exclude utility and legal pages -->
+        <script is:inline>
+            const senderExcludedPaths = [
+                "/about/",
+                "/contact/",
+                "/privacy-policy/",
+                "/affiliate-disclosure/",
+                "/terms/",
+                "/disclaimer/",
+                "/accessibility/",
+            ];
+
+            const senderCurrentPath =
+                window.location.pathname.replace(/\/+$/, "") || "/";
+
+            const senderExcludedPathsNormalized =
+                senderExcludedPaths.map(path => path.replace(/\/+$/, ""));
+
+            const senderShouldLoad =
+                !senderExcludedPathsNormalized.includes(senderCurrentPath);
+
+            if (senderShouldLoad) {
+                (function (s, e, n, d, er) {
+                    s["Sender"] = er;
+                    s[er] = s[er] || function () {
+                        (s[er].q = s[er].q || []).push(arguments);
+                    };
+                    s[er].l = 1 * new Date();
+                    s[er].on = function (event, callback) {
+                        s[er].listeners = s[er].listeners || {};
+                        (s[er].listeners[event] = s[er].listeners[event] || []).push(callback);
+                    };
+                    var a = e.createElement(n);
+                    var m = e.getElementsByTagName(n)[0];
+                    a.async = 1;
+                    a.src = d;
+                    m.parentNode.insertBefore(a, m);
+                })(window, document, "script",
+                    "https://cdn.sender.net/accounts_resources/universal.js", "sender");
+
+                sender("035a7b77920572");
+            }
+        </script>
     </head>
 
     <body class="bg-base-200 min-h-screen">
