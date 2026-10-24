@@ -4,9 +4,7 @@ interface Props {
 }
 
 const { images } = Astro.props;
-const mainImage =
-    images[0] ||
-    "/images/products/product-gallery-fallback.webp";
+const mainImage = images[0];
 ---
 
 <div class="product-gallery space-y-6">
@@ -14,14 +12,26 @@ const mainImage =
     <div
         class="aspect-4/5 md:aspect-square bg-slate-100 rounded-3xl overflow-hidden relative group border border-slate-200 shadow-inner"
     >
-        <img
-            id="main-product-image"
-            src={mainImage}
-            alt="Product View"
-            decoding="async"
-            fetchpriority="high"
-            class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-        />
+        {
+            mainImage ? (
+                <img
+                    id="main-product-image"
+                    src={mainImage}
+                    alt="Product View"
+                    decoding="async"
+                    fetchpriority="high"
+                    class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                />
+            ) : (
+                <div
+                    class="w-full h-full flex items-center justify-center text-slate-500 text-sm"
+                    role="img"
+                    aria-label="No product image available"
+                >
+                    No image available
+                </div>
+            )
+        }
     </div>
 
     <!-- Thumbnails -->
