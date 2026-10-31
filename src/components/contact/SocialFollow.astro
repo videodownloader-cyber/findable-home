@@ -1,3 +1,4 @@
+
 ---
 const socialLinks = [
     {
@@ -5,8 +6,8 @@ const socialLinks = [
         href: "https://in.pinterest.com/findablehome/",
     },
     {
-        name: "Tumblr",
-        href: "https://findablehome.tumblr.com/",
+        name: "Threads",
+        href: "https://www.threads.com/@findablehome",
     },
 ];
 ---
@@ -18,7 +19,7 @@ const socialLinks = [
         {socialLinks.map((link) => (
             <a
                 href={link.href}
-                aria-label={link.name}
+                aria-label={`Findable Home on ${link.name}`}
                 title={link.name}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -35,11 +36,11 @@ const socialLinks = [
                     </svg>
                 ) : (
                     <img
-    src="/images/branding/tumblr.svg"
-    alt=""
-    aria-hidden="true"
-    class="w-5 h-5"
-/>
+                        src="/images/branding/threads.svg"
+                        alt=""
+                        aria-hidden="true"
+                        class="w-5 h-5 object-contain"
+                    />
                 )}
             </a>
         ))}
