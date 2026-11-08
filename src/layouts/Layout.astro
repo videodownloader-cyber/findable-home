@@ -66,6 +66,7 @@ const imageUrl = new URL(image, siteUrl).href;
         <meta name="twitter:image" content={imageUrl} />
 
         <link rel="icon" type="image/webp" href="/favicon.webp" />
+
         <!-- Sender.net popup: exclude utility and legal pages -->
         <script is:inline>
             const senderExcludedPaths = [
@@ -130,6 +131,30 @@ const imageUrl = new URL(image, siteUrl).href;
         <Footer />
         <CartDrawer />
         <ToasterComponent client:load />
+
+        <!-- Open all external links in a new tab -->
+        <script>
+            function openExternalLinksInNewTab() {
+                document.querySelectorAll('a[href^="http"]').forEach((link) => {
+                    const url = new URL(link.href);
+
+                    if (url.hostname !== window.location.hostname) {
+                        link.setAttribute("target", "_blank");
+
+                        const rel = new Set(
+                            (link.getAttribute("rel") || "").split(" ").filter(Boolean)
+                        );
+
+                        rel.add("noopener");
+                        link.setAttribute("rel", [...rel].join(" "));
+                    }
+                });
+            }
+
+            openExternalLinksInNewTab();
+
+            document.addEventListener("astro:page-load", openExternalLinksInNewTab);
+        </script>
     </body>
 </html>
 
