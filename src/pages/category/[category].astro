@@ -1,4 +1,3 @@
-
 ---
 import Layout from "../../layouts/Layout.astro";
 import CategoriesHeader from "../../components/categories/CategoriesHeader.astro";
@@ -6,6 +5,50 @@ import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import ShopProductCard from "../../components/products/ShopProductCard.astro";
 import { categories } from "../../data/home";
 import { featuredProducts } from "../../data/featuredProducts";
+import { blogPosts } from "../../data/blogData";
+
+const categoryContent = {
+    kitchen: {
+        intro: "Explore practical kitchen organization and storage finds for cabinets, drawers, countertops, and everyday cooking spaces. Start with solutions that make frequently used items easier to reach.",
+        description: "Discover practical kitchen organization and storage solutions for everyday household spaces.",
+        articleSlugs: ["pantry-ideas-under-stairs", "small-pantry-door-ideas"],
+    },
+    pantry: {
+        intro: "Find practical pantry storage and organization ideas for small shelves, awkward spaces, and everyday food supplies. Choose solutions that fit your measurements and make items easier to see and reach.",
+        description: "Explore practical pantry organization and storage ideas, including space-saving solutions for small and under-stairs pantries.",
+        articleSlugs: ["pantry-ideas-under-stairs", "small-pantry-door-ideas"],
+    },
+    closet: {
+        intro: "Explore closet organization finds for clothing, accessories, and everyday essentials. Focus on making the most of your available space with practical storage options.",
+        description: "Discover practical closet organization and storage finds for clothing and household essentials.",
+        articleSlugs: [],
+    },
+    bathroom: {
+        intro: "Find practical bathroom storage ideas for toiletries, towels, and everyday essentials. Look for solutions that suit your available space and keep items accessible.",
+        description: "Explore practical bathroom organization and storage solutions for everyday essentials.",
+        articleSlugs: [],
+    },
+    laundry: {
+        intro: "Explore laundry organization finds for detergents, clothing, and cleaning supplies. Make the laundry area easier to use with storage that fits your space.",
+        description: "Discover practical laundry room organization and storage solutions.",
+        articleSlugs: [],
+    },
+    entryway: {
+        intro: "Find practical entryway storage for shoes, bags, coats, and daily essentials. Make coming and going easier while keeping the space manageable.",
+        description: "Explore practical entryway organization and storage ideas for everyday household items.",
+        articleSlugs: [],
+    },
+    office: {
+        intro: "Explore home office organization finds for supplies, paperwork, and work essentials. Choose storage that helps keep your workspace functional and uncluttered.",
+        description: "Discover practical home office organization and storage solutions.",
+        articleSlugs: [],
+    },
+    "under-the-sink": {
+        intro: "Find practical under-the-sink storage for cleaning supplies and household essentials. Work around pipes and cabinet dimensions when choosing organizers.",
+        description: "Explore practical under-the-sink organization and storage solutions for awkward cabinet spaces.",
+        articleSlugs: [],
+    },
+};
 
 export function getStaticPaths() {
     const householdSlugs = [
@@ -28,6 +71,7 @@ export function getStaticPaths() {
         return {
             params: { category: slug },
             props: {
+                categorySlug: slug,
                 categoryName: categoryData?.name ?? slug,
                 image: categoryData?.image,
                 categoryProducts: featuredProducts.filter(
@@ -38,7 +82,21 @@ export function getStaticPaths() {
     });
 }
 
-const { categoryName, categoryProducts, image } = Astro.props;
+const { categorySlug, categoryName, categoryProducts, image } = Astro.props;
+const content = categoryContent[categorySlug] ?? {
+    intro: `Explore practical ${categoryName.toLowerCase()} organization and storage solutions for your home.`,
+    description: `Discover practical ${categoryName.toLowerCase()} organization and storage solutions.`,
+    articleSlugs: [],
+};
+
+const relatedArticles = blogPosts.filter((post) =>
+    content.articleSlugs.includes(post.slug),
+);
+
+const relatedCategories = categories.filter((category) => {
+    const slug = category.name.toLowerCase().trim().replace(/\s+/g, "-");
+    return slug !== categorySlug;
+});
 
 const breadcrumbItems = [
     { label: "Home", href: "/" },
@@ -48,7 +106,7 @@ const breadcrumbItems = [
 
 <Layout
     title={`${categoryName} Organization & Storage | Findable Home`}
-    description={`Explore practical ${categoryName.toLowerCase()} organization and storage solutions from Findable Home.`}
+    description={content.description}
 >
     <CategoriesHeader title={categoryName} image={image} />
 
@@ -57,51 +115,120 @@ const breadcrumbItems = [
             <Breadcrumbs items={breadcrumbItems} />
 
             <main class="py-12">
-                <div class="mb-8">
-                    <h1 class="text-2xl font-black tracking-tight text-slate-900 md:text-3xl">
+                <section class="mb-10">
+                    <h2 class="text-2xl font-black tracking-tight text-slate-900 md:text-3xl">
                         {categoryName} Organization Finds
-                    </h1>
-
-                    <p class="mt-3 max-w-2xl leading-relaxed text-slate-600">
-                        Explore selected products and practical ideas for
-                        organizing this space in your home.
+                    </h2>
+                    <p class="mt-3 max-w-3xl leading-relaxed text-slate-600">
+                        {content.intro}
                     </p>
-                </div>
+                </section>
 
-                {categoryProducts.length > 0 ? (
-                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {categoryProducts.map((product) => (
-                            <ShopProductCard
-                                id={product.id}
-                                title={product.title}
-                                category={product.category}
-                                image={product.image}
-                                benableUrl={product.benableUrl}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-16 text-center">
-                        <h2 class="text-xl font-bold text-slate-900">
-                            More {categoryName.toLowerCase()} solutions are coming
-                        </h2>
+                <section aria-label={`${categoryName} products`}>
+                    {categoryProducts.length > 0 ? (
+                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            {categoryProducts.map((product) => (
+                                <ShopProductCard
+                                    id={product.id}
+                                    title={product.title}
+                                    category={product.category}
+                                    image={product.image}
+                                    benableUrl={product.benableUrl}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-16 text-center">
+                            <h2 class="text-xl font-bold text-slate-900">
+                                More {categoryName.toLowerCase()} solutions are coming
+                            </h2>
+                            <p class="mx-auto mt-3 max-w-xl leading-relaxed text-slate-600">
+                                We're building this collection of practical household
+                                solutions. In the meantime, explore the Shop for our
+                                currently selected finds.
+                            </p>
+                            <a
+                                href="/shop/"
+                                class="mt-6 inline-flex rounded-xl bg-primary px-6 py-3 font-bold text-primary-content transition-opacity hover:opacity-85"
+                            >
+                                Explore the Shop
+                            </a>
+                        </div>
+                    )}
+                </section>
 
-                        <p class="mx-auto mt-3 max-w-xl leading-relaxed text-slate-600">
-                            We're building this collection of practical household
-                            solutions. In the meantime, explore the Shop for our
-                            currently selected finds.
-                        </p>
+                {relatedArticles.length > 0 && (
+                    <section class="mt-20" aria-labelledby="related-articles-heading">
+                        <div class="mb-8">
+                            <h2
+                                id="related-articles-heading"
+                                class="text-2xl font-black tracking-tight text-slate-900 md:text-3xl"
+                            >
+                                Helpful {categoryName} Organization Guides
+                            </h2>
+                            <p class="mt-3 max-w-3xl leading-relaxed text-slate-600">
+                                Read practical guides for planning and organizing this space.
+                            </p>
+                        </div>
 
-                        <a
-                            href="/shop/"
-                            class="mt-6 inline-flex rounded-xl bg-primary px-6 py-3 font-bold text-primary-content transition-opacity hover:opacity-85"
-                        >
-                            Explore the Shop
-                        </a>
-                    </div>
+                        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            {relatedArticles.map((post) => (
+                                <a
+                                    href={`/blog/${post.slug}/`}
+                                    class="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition-shadow hover:shadow-lg"
+                                >
+                                    <img
+                                        src={post.image}
+                                        alt={post.imageAlt ?? post.title}
+                                        loading="lazy"
+                                        class="h-56 w-full object-cover"
+                                    />
+                                    <div class="p-6">
+                                        <h3 class="text-lg font-bold text-slate-900 transition-colors group-hover:text-primary">
+                                            {post.title}
+                                        </h3>
+                                        <p class="mt-3 leading-relaxed text-slate-600">
+                                            {post.description}
+                                        </p>
+                                        <span class="mt-4 inline-block font-bold text-primary">
+                                            Read the guide →
+                                        </span>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </section>
                 )}
+
+                <section class="mt-20" aria-labelledby="related-categories-heading">
+                    <div class="mb-8">
+                        <h2
+                            id="related-categories-heading"
+                            class="text-2xl font-black tracking-tight text-slate-900 md:text-3xl"
+                        >
+                            Explore More Organization Categories
+                        </h2>
+                        <p class="mt-3 max-w-3xl leading-relaxed text-slate-600">
+                            Browse other areas of the home for practical storage and organization finds.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                        {relatedCategories.map((category) => {
+                            const slug = category.name.toLowerCase().trim().replace(/\s+/g, "-");
+                            return (
+                                <a
+                                    href={`/category/${slug}/`}
+                                    class="rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 font-bold text-slate-800 transition-colors hover:border-primary hover:text-primary"
+                                >
+                                    {category.name}
+                                </a>
+                            );
+                        })}
+                    </div>
+                </section>
             </main>
         </div>
     </div>
 </Layout>
-
+EOF
