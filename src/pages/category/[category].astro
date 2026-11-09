@@ -6,6 +6,7 @@ import ShopProductCard from "../../components/products/ShopProductCard.astro";
 import { categories } from "../../data/home";
 import { featuredProducts } from "../../data/featuredProducts";
 import { blogPosts } from "../../data/blogData";
+import { createCollectionPageSchema, createBreadcrumbSchema } from "../../utils/schema";
 
 const categoryContent = {
     kitchen: {
@@ -98,13 +99,27 @@ const relatedCategories = categories.filter((category) => {
     return slug !== categorySlug;
 });
 
+
+const categorySchema = createCollectionPageSchema({
+    name: `${categoryName} Organization & Storage`,
+    description: content.description,
+    url: `/category/${categorySlug}/`,
+    items: relatedArticles.map((post) => ({
+        name: post.title,
+        url: `/blog/${post.slug}/`,
+    })),
+});
+
 const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: categoryName },
 ];
+
+const breadcrumbSchema = createBreadcrumbSchema(breadcrumbItems);
 ---
 
 <Layout
+    schema={[categorySchema, breadcrumbSchema]}
     title={`${categoryName} Organization & Storage | Findable Home`}
     description={content.description}
 >

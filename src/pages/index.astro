@@ -5,9 +5,11 @@ import FeaturedContent from "../components/home/FeaturedContent.astro";
 import CategoryHome from "../components/home/CategoryHome.astro";
 import ProblemSolving from "../components/home/ProblemSolving.astro";
 import FeaturedProducts from "../components/home/FeaturedProducts.astro";
+import { organizationSchema, websiteSchema } from "../utils/schema";
 ---
 
 <Layout
+    schema={[organizationSchema, websiteSchema]}
     title="Findable Home | Practical Home Organization & Storage Ideas"
     description="Discover practical home organization, small-space storage, and renter-friendly solutions to make everyday spaces work better."
 >

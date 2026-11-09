@@ -5,6 +5,7 @@ import { blogPosts } from "../../data/blogData";
 import BlogCard from "../../components/blog/BlogCard.astro";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import Pagination from "../../components/ui/Pagination.astro";
+import { createCollectionPageSchema } from "../../utils/schema";
 
 const url = new URL(Astro.request.url);
 const currentPage = Math.max(
@@ -16,9 +17,21 @@ const postsPerPage = 6;
 const totalPages = Math.ceil(blogPosts.length / postsPerPage);
 const start = (currentPage - 1) * postsPerPage;
 const currentPosts = blogPosts.slice(start, start + postsPerPage);
+
+const blogListingSchema = createCollectionPageSchema({
+    name: "Home Organization Tips & Storage Ideas",
+    description: "Explore practical home organization tips, small-space storage ideas, and renter-friendly solutions.",
+    url: "/blog/",
+    items: currentPosts.map((post) => ({
+        name: post.title,
+        url: `/blog/${post.slug}/`,
+    })),
+});
+
 ---
 
 <Layout
+    schema={[blogListingSchema]}
     title="Home Organization Tips & Storage Ideas | Findable Home"
     description="Explore practical home organization tips, small-space storage ideas, and renter-friendly solutions for kitchens, bathrooms, closets, and everyday spaces."
 >

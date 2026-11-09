@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { blogPosts } from "../../data/blogData";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
+import { createBlogPostingSchema, createBreadcrumbSchema } from "../../utils/schema";
 
 export async function getStaticPaths() {
   return blogPosts.map((post) => ({
@@ -12,56 +13,22 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 
-const siteUrl = "https://findablehome.me";
-const articleUrl = new URL(`/blog/${post.slug}`, siteUrl).href;
-const articleImage = new URL(post.image, siteUrl).href;
-const authorImage = new URL(post.authorImage ?? "/images/authors/carolina-wilson.webp", siteUrl).href;
+const articleSchema = createBlogPostingSchema(post);
 
-const toSchemaDate = (value) => {
-  if (!value) return undefined;
-  const dateValue = new Date(value);
-  return Number.isNaN(dateValue.getTime()) ? undefined : dateValue.toISOString();
-};
-
-const datePublished = toSchemaDate(post.datePublished ?? post.date);
-const dateModified = toSchemaDate(post.dateModified ?? post.datePublished ?? post.date);
-
-const articleSchema = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": articleUrl
-  },
-  "headline": post.title,
-  "description": post.metaDescription ?? post.description,
-  "image": [articleImage],
-  "author": {
-    "@type": "Person",
-    "name": post.author,
-    "url": new URL("/about/", siteUrl).href,
-    "image": authorImage
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Findable Home",
-    "url": siteUrl,
-    "logo": {
-      "@type": "ImageObject",
-      "url": new URL("/images/branding/findable-home-logo.webp", siteUrl).href
-    }
-  },
-  ...(datePublished ? { "datePublished": datePublished } : {}),
-  ...(dateModified ? { "dateModified": dateModified } : {})
-};
+const breadcrumbSchema = createBreadcrumbSchema([
+    { label: "Home", href: "/" },
+    { label: "Blog", href: "/blog/" },
+    { label: post.title, href: `/blog/${post.slug}/` },
+]);
 
 // Filter related articles
 const relatedPosts = blogPosts.filter((p) => p.slug !== post.slug).slice(0, 2);
 ---
 
-<Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(articleSchema)} /></Fragment>
+
 
 <Layout
+  schema={[articleSchema, breadcrumbSchema]}
   title={post.seoTitle ?? post.title}
   description={post.metaDescription ?? post.description}
   canonical={`/blog/${post.slug}`}

@@ -13,6 +13,7 @@ interface Props {
     noindex?: boolean;
     ogType?: "website" | "article";
     image?: string;
+    schema?: Record<string, any>[];
 }
 
 const {
@@ -22,6 +23,7 @@ const {
     noindex = false,
     ogType = "website",
     image = "/images/branding/findable-home-logo.webp",
+    schema = [],
 } = Astro.props;
 
 const siteUrl = "https://findablehome.me";
@@ -51,6 +53,9 @@ const imageUrl = new URL(image, siteUrl).href;
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonicalUrl} />
+        {schema.map((item) => (
+            <script type="application/ld+json" set:html={JSON.stringify(item)} />
+        ))}
         <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
         <meta property="og:type" content={ogType} />

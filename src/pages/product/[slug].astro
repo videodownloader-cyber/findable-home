@@ -5,6 +5,7 @@ import ProductGallery from "../../components/products/ProductGallery.astro";
 import ProductInfo from "../../components/products/ProductInfo.astro";
 import CardProduct from "../../components/products/CardProduct.astro";
 import { products, getRelatedProducts } from "../../data/products";
+import { createProductSchema } from "../../utils/schema";
 
 export async function getStaticPaths() {
     return products.map((product) => ({
@@ -15,6 +16,9 @@ export async function getStaticPaths() {
 
 const { product } = Astro.props;
 const relatedProducts = getRelatedProducts(product.category, product.slug);
+
+const productSchema = createProductSchema(product);
+
 
 const breadcrumbItems = [
     { label: "Home", href: "/" },
@@ -27,6 +31,7 @@ const breadcrumbItems = [
 ---
 
 <Layout
+    schema={productSchema ? [productSchema] : []}
     title={`${product.name} | Findable Home`}
     description={`Explore ${product.name}, a practical home organization solution from Findable Home. Discover useful ideas for making everyday spaces easier to organize.`}
     ogType="website"
