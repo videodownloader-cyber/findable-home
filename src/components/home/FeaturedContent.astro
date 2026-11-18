@@ -1,7 +1,14 @@
 ---
-import { getFeaturedContent } from "../../data/content";
+import { blogPosts } from "../../data/blogData";
 
-const featuredContent = getFeaturedContent(3);
+const featuredContent = [...blogPosts]
+    .filter((post) => post.featured === true)
+    .sort(
+        (a, b) =>
+            new Date(b.datePublished).getTime() -
+            new Date(a.datePublished).getTime()
+    )
+    .slice(0, 3);
 ---
 
 {
@@ -9,11 +16,10 @@ const featuredContent = getFeaturedContent(3);
         <section class="py-10 sm:py-12 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <!-- Section Heading -->
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl sm:text-3xl font-medium tracking-tight text-slate-900">
-                        Featured Content
-                    </h2>
+                    <p class="text-xs sm:text-sm font-medium uppercase tracking-[0.18em] text-slate-700">
+                        Featured
+                    </p>
 
                     <a
                         href="/blog"
@@ -23,26 +29,27 @@ const featuredContent = getFeaturedContent(3);
                     </a>
                 </div>
 
-                <!-- Content Strip -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                     {
                         featuredContent.map((item) => (
                             <a
-                                href={item.path}
-                                class="group flex items-center gap-4 border-t border-slate-200 pt-4"
+                                href={`/blog/${item.slug}/`}
+                                class="group block"
                             >
-                                <!-- Small Image -->
-                                <div class="w-24 h-20 sm:w-28 sm:h-24 shrink-0 overflow-hidden bg-slate-100">
+                                <div class="overflow-hidden bg-slate-100 aspect-[4/3]">
                                     <img
                                         src={item.image}
-                                        alt={item.title}
-                                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        alt={item.imageAlt || item.title}
+                                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                 </div>
 
-                                <!-- Title + Author -->
-                                <div>
-                                    <h3 class="text-base sm:text-lg font-medium leading-snug text-slate-900 group-hover:underline">
+                                <div class="pt-4">
+                                    <p class="text-[10px] sm:text-xs font-medium uppercase tracking-[0.16em] text-slate-500 mb-2">
+                                        {item.category}
+                                    </p>
+
+                                    <h3 class="text-lg sm:text-xl font-medium leading-snug tracking-tight text-slate-900 group-hover:underline">
                                         {item.title}
                                     </h3>
 
