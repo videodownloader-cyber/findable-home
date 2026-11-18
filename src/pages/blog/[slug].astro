@@ -16,16 +16,14 @@ const { post } = Astro.props;
 const articleSchema = createBlogPostingSchema(post);
 
 const breadcrumbSchema = createBreadcrumbSchema([
-    { label: "Home", href: "/" },
-    { label: "Blog", href: "/blog/" },
-    { label: post.title, href: `/blog/${post.slug}/` },
+  { label: "Home", href: "/" },
+  { label: "Blog", href: "/blog/" },
+  { label: post.title, href: `/blog/${post.slug}/` },
 ]);
 
 // Filter related articles
 const relatedPosts = blogPosts.filter((p) => p.slug !== post.slug).slice(0, 2);
 ---
-
-
 
 <Layout
   schema={[articleSchema, breadcrumbSchema]}
@@ -44,7 +42,7 @@ const relatedPosts = blogPosts.filter((p) => p.slug !== post.slug).slice(0, 2);
           {
             label: post.title.substring(0, 20) + "...",
             href: Astro.url.pathname,
-          }, // Truncate for cleaner UI
+          },
         ]}
       />
     </div>
@@ -86,7 +84,13 @@ const relatedPosts = blogPosts.filter((p) => p.slug !== post.slug).slice(0, 2);
     />
 
     <div
-      class={`article-content max-w-none lg:max-w-[800px] ${post.slug === "small-pantry-door-ideas" ? "small-pantry-door-ideas" : ""}`}
+      class={`article-content max-w-none lg:max-w-[800px] ${
+        post.slug === "small-pantry-door-ideas" ? "small-pantry-door-ideas" : ""
+      } ${
+        post.slug === "pantry-organization-categories"
+          ? "pantry-organization-categories"
+          : ""
+      }`}
       set:html={post.content.replace(/<p class="affiliate-disclosure">.*?<\/p>\s*/s, "")}
     />
 
@@ -146,190 +150,300 @@ const relatedPosts = blogPosts.filter((p) => p.slug !== post.slug).slice(0, 2);
     }
   </article>
 
-<style>
-  .affiliate-disclosure :global(p) {
-    font-style: italic;
-  }
+  <style>
+    .affiliate-disclosure :global(p) {
+      font-style: italic;
+    }
 
-  .affiliate-disclosure :global(a) {
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
+    .affiliate-disclosure :global(a) {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
 
-  .article-content {
-    color: var(--color-base-content);
-    font-size: 1.0625rem;
-    line-height: 1.85;
-    overflow-wrap: anywhere;
-  }
-
-  .article-content :global(p) {
-    margin: 0 0 1.25rem;
-  }
-
-  .article-content :global(h2) {
-    font-size: clamp(1.6rem, 2.5vw, 2rem);
-    line-height: 1.25;
-    font-weight: 800;
-    margin: 2.5rem 0 1rem;
-  }
-
-  .article-content :global(h3) {
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
-    line-height: 1.35;
-    font-weight: 700;
-    margin: 2rem 0 0.75rem;
-  }
-
-  .article-content :global(ul),
-  .article-content :global(ol) {
-    margin: 0 0 1.5rem;
-    padding-left: 1.75rem;
-  }
-
-  .article-content :global(ul) {
-    list-style: disc;
-  }
-
-  .article-content :global(ol) {
-    list-style: decimal;
-  }
-
-  .article-content :global(li) {
-    margin: 0.15rem 0;
-    padding-left: 0.15rem;
-  }
-
-  .article-content :global(li p) {
-    margin: 0.2rem 0;
-  }
-
-  .article-content :global(ul ul),
-  .article-content :global(ol ol),
-  .article-content :global(ul ol),
-  .article-content :global(ol ul) {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .article-content :global(strong) {
-    font-weight: 700;
-  }
-
-  .article-content :global(a) {
-    color: var(--color-primary);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .article-content :global(table) {
-    width: 100%;
-    max-width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-    margin: 1.5rem 0 2rem;
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-
-  .article-content :global(th),
-  .article-content :global(td) {
-    padding: 0.8rem 1rem;
-    text-align: left;
-    vertical-align: top;
-    border-bottom: 1px solid var(--color-base-300);
-    min-width: 0;
-    overflow-wrap: anywhere;
-    word-break: normal;
-  }
-
-  .article-content :global(th) {
-    font-weight: 700;
-    color: var(--color-base-content);
-    background: transparent;
-  }
-
-  .article-content :global(td) {
-    color: var(--color-base-content);
-  }
-
-  .article-content.small-pantry-door-ideas :global(p.article-image) {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin: 1.5rem auto;
-  }
-
-  .article-content.small-pantry-door-ideas :global(p.article-image a) {
-    display: block;
-    width: min(100%, 250px);
-    margin: 0 auto;
-  }
-
-  .article-content.small-pantry-door-ideas :global(p.article-image img) {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: none;
-    margin: 0;
-    object-fit: contain;
-  }
-
-  .article-content :global(figure) {
-    width: 100%;
-    margin: 2rem auto;
-  }
-
-  .article-content :global(figure img) {
-    display: block;
-    width: 100%;
-    max-height: 28rem;
-    object-fit: contain;
-    border-radius: 0;
-  }
-
-
-  .article-content :global(img) {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    border-radius: 0;
-  }
-
-  .article-content :global(p > img) {
-    width: 100%;
-    max-height: 28rem;
-    object-fit: contain;
-    margin: 2rem auto;
-  }
-\n  .article-content :global(figcaption) {
-    font-size: 0.875rem;
-    line-height: 1.5;
-    text-align: center;
-    margin-top: 0.6rem;
-    color: #78716c;
-  }
-
-  @media (max-width: 640px) {
     .article-content {
-      font-size: 1rem;
+      color: var(--color-base-content);
+      font-size: 1.0625rem;
+      line-height: 1.85;
+      overflow-wrap: anywhere;
+    }
+
+    .article-content :global(p) {
+      margin: 0 0 1.25rem;
+    }
+
+    .article-content :global(h2) {
+      font-size: clamp(1.6rem, 2.5vw, 2rem);
+      line-height: 1.25;
+      font-weight: 800;
+      margin: 2.5rem 0 1rem;
+    }
+
+    .article-content :global(h3) {
+      font-size: clamp(1.25rem, 2vw, 1.5rem);
+      line-height: 1.35;
+      font-weight: 700;
+      margin: 2rem 0 0.75rem;
+    }
+
+    .article-content :global(ul),
+    .article-content :global(ol) {
+      margin: 0 0 1.5rem;
+      padding-left: 1.75rem;
+    }
+
+    .article-content :global(ul) {
+      list-style: disc;
+    }
+
+    .article-content :global(ol) {
+      list-style: decimal;
+    }
+
+    .article-content :global(li) {
+      margin: 0.15rem 0;
+      padding-left: 0.15rem;
+    }
+
+    .article-content :global(li p) {
+      margin: 0.2rem 0;
+    }
+
+    .article-content :global(ul ul),
+    .article-content :global(ol ol),
+    .article-content :global(ul ol),
+    .article-content :global(ol ul) {
+      margin-top: 0.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .article-content :global(strong) {
+      font-weight: 700;
+    }
+
+    .article-content :global(a) {
+      color: var(--color-primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
     .article-content :global(table) {
-      font-size: 0.78rem;
+      width: 100%;
+      max-width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      margin: 1.5rem 0 2rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .article-content :global(th),
+    .article-content :global(td) {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--color-base-300);
+      min-width: 0;
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
+    .article-content :global(th) {
+      font-weight: 700;
+      color: var(--color-base-content);
+      background: transparent;
+    }
+
+    .article-content :global(td) {
+      color: var(--color-base-content);
+    }
+
+    /* Existing small pantry door article image styling */
+    .article-content.small-pantry-door-ideas :global(p.article-image) {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 1.5rem auto;
+    }
+
+    .article-content.small-pantry-door-ideas :global(p.article-image a) {
+      display: block;
+      width: min(100%, 250px);
+      margin: 0 auto;
+    }
+
+    .article-content.small-pantry-door-ideas :global(p.article-image img) {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: none;
+      margin: 0;
+      object-fit: contain;
+    }
+
+    .article-content :global(figure) {
+      width: 100%;
+      margin: 2rem auto;
+    }
+
+    .article-content :global(figure img) {
+      display: block;
+      width: 100%;
+      max-height: 28rem;
+      object-fit: contain;
+      border-radius: 0;
+    }
+
+    .article-content :global(img) {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+
+    .article-content :global(p > img) {
+      width: 100%;
+      max-height: 28rem;
+      object-fit: contain;
+      margin: 2rem auto;
+    }
+
+    .article-content :global(figcaption) {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      text-align: center;
+      margin-top: 0.6rem;
+      color: #78716c;
+    }
+
+    /* Pantry organization categories article styling */
+    .article-content.pantry-organization-categories :global(.article-hero-caption) {
+      margin: -1.25rem auto 1.75rem;
+      max-width: 42rem;
+      text-align: center;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      font-style: normal;
+      color: var(--color-base-content);
+      opacity: 0.68;
+    }
+
+    /* Simple collapsible table of contents */
+    .article-content.pantry-organization-categories :global(.article-toc) {
+      margin: 1.5rem 0 2rem;
+      border: 1px solid #d6dce5;
+      border-radius: 0.25rem;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .article-content.pantry-organization-categories :global(.article-toc summary) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 1.1rem;
+      background: #172b4d;
+      color: #fff;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .article-content.pantry-organization-categories :global(.article-toc summary::-webkit-details-marker) {
+      display: none;
+    }
+
+    .article-content.pantry-organization-categories :global(.article-toc-title) {
+      margin: 0;
+      color: #fff;
+      font-size: 1rem;
       line-height: 1.4;
+      font-weight: 700;
     }
 
-    .article-content :global(th),
-    .article-content :global(td) {
-      padding: 0.45rem 0.35rem;
+    .article-content.pantry-organization-categories :global(.article-toc-action) {
+      display: none;
     }
 
-    .article-content :global(th),
-    .article-content :global(td) {
-      padding: 0.6rem;
+    .article-content.pantry-organization-categories :global(.article-toc summary::after) {
+      content: "";
+      flex: 0 0 auto;
+      width: 0.55rem;
+      height: 0.55rem;
+      margin-right: 0.15rem;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg) translateY(-2px);
+      transition: transform 160ms ease;
     }
-  }
-</style>
 
+    .article-content.pantry-organization-categories :global(.article-toc[open] summary::after) {
+      transform: rotate(225deg) translate(-2px, -1px);
+    }
+
+    .article-content.pantry-organization-categories :global(.article-toc ul) {
+      margin: 0;
+      padding: 0.85rem 1.25rem 0.9rem 2.4rem;
+      background: #fff;
+      border: 0;
+      list-style: disc;
+    }
+
+    .article-content.pantry-organization-categories :global(.article-toc li) {
+      margin: 0.35rem 0;
+    }
+
+    .article-content.pantry-organization-categories :global(.article-toc li a) {
+      color: #26364d;
+      text-decoration: none;
+    }
+
+    .article-content.pantry-organization-categories :global(.article-toc li a:hover) {
+      text-decoration: underline;
+    }
+
+    .article-content.pantry-organization-categories :global(.article-figure) {
+      margin: 1.75rem auto 2rem;
+      text-align: center;
+    }
+
+    .article-content.pantry-organization-categories :global(.article-figure img) {
+      display: block;
+      width: 100%;
+      max-height: 28rem;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
+    .article-content.pantry-organization-categories :global(.article-figure figcaption) {
+      font-size: 0.8rem;
+      line-height: 1.45;
+      text-align: center;
+      margin: 0.5rem auto 0;
+      color: var(--color-base-content);
+      opacity: 0.7;
+      max-width: 42rem;
+    }
+
+    .article-content.pantry-organization-categories :global(h2),
+    .article-content.pantry-organization-categories :global(h3) {
+      scroll-margin-top: 6rem;
+    }
+
+    @media (max-width: 640px) {
+      .article-content {
+        font-size: 1rem;
+      }
+
+      .article-content :global(table) {
+        font-size: 0.78rem;
+        line-height: 1.4;
+      }
+
+      .article-content :global(th),
+      .article-content :global(td) {
+        padding: 0.6rem;
+      }
+
+    }
+  </style>
 </Layout>
